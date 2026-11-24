@@ -122,12 +122,15 @@ jobs:
         KEY_DIR = "/metadata/vold/metadata_encryption"
         TERMINFO_KEEP = re.compile(r"^(linux|xterm|xterm-256color|xterm-color|vt100|vt102|"
                                    r"screen|screen-256color|tmux|tmux-256color|ansi|dumb|rxvt)$")
-        DROP_EXACT = {
+                DROP_EXACT = {
             "system/lib64/libclang_rt.ubsan_standalone-aarch64-android.so",
             "system/lib64/libssh.so", "system/lib64/libxml2.so",
             "system/lib64/libext2_profile.so", "system/lib64/libservices.so",
+            "system/bin/vim", "system/bin/curl", "system/bin/e2fsdroid", 
+            "system/bin/make_f2fs", "system/bin/fsck.f2fs",
+            "system/bin/sload_f2fs", "system/lib64/libf2fs_fmt.so",
             "twres/fonts/Chococooky.ttf", "twres/fonts/Exo2-Medium.ttf",
-            "twres/fonts/FiraCode-Medium.ttf",
+            "twres/fonts/FiraCode-Medium.ttf", "twres/fonts/RobotoCondensed-Regular.ttf",
         }
 
         def drop(name):
