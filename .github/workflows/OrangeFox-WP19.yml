@@ -99,12 +99,14 @@ jobs:
     - name: Patch fscrypt (disable wrappedkey)
       run: |
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
-        FILES=$(grep -rl "Trying with wrappedkey" bootable/recovery system/vold 2>/dev/null || true)
+        FILES=$(grep -rl "wrappedkey" bootable/ system/ 2>/dev/null | grep -E "\.cpp$|\.cc$|\.c$" || true)
         echo "Found files: $FILES"
         for f in $FILES; do
+          echo "=== Patching $f ==="
+          grep -n -C 3 -i "wrapped" "$f" || true
           sed -i -E 's/if\s*\([^)]*wrapped[^)]*\)/if (false)/gi' "$f"
-          grep -n -C 2 "if (false)" "$f" || true
         done
+
         
     - name: Prepare trim tool
       run: |
