@@ -99,15 +99,9 @@ jobs:
     - name: Patch fscrypt (disable wrappedkey)
       run: |
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
-        python3 -c '
-        import glob, re
-        for path in glob.glob("bootable/recovery/crypto/fscrypt/*.cpp"):
-            txt = open(path).read()
-            new = re.sub(r"if\s*\([^)]*wrapped[^)]*\)", "if (false)", txt, flags=re.I)
-            if new != txt:
-                open(path, "w").write(new)
-                print("Patched wrappedkey in:", path)
-                
+        find bootable/recovery/crypto/fscrypt -name "*.cpp" -exec sed -i -E 's/if\s*\([^)]*wrapped[^)]*\)/if (false)/gi' {} +
+        grep -rn "if (false)" bootable/recovery/crypto/fscrypt/ || true
+
     - name: Prepare trim tool
       run: |
         cat > ${GITHUB_WORKSPACE}/fox_trim.py <<'PYEOF'
