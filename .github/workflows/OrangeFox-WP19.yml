@@ -95,7 +95,19 @@ jobs:
         git clone ${{ inputs.DEVICE_TREE }} -b ${{ inputs.DEVICE_TREE_BRANCH }} ./${{ inputs.DEVICE_PATH }}
         cd ${{ inputs.DEVICE_PATH }}
         echo "COMMIT_ID=$(git rev-parse HEAD)" >> $GITHUB_ENV
-
+        
+    - name: Patch fscrypt (disable wrappedkey)
+      run: |
+        cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
+        python3 -c '
+        import glob, re
+        for path in glob.glob("bootable/recovery/crypto/fscrypt/*.cpp"):
+            txt = open(path).read()
+            new = re.sub(r"if\s*\([^)]*wrapped[^)]*\)", "if (false)", txt, flags=re.I)
+            if new != txt:
+                open(path, "w").write(new)
+                print("Patched wrappedkey in:", path)
+                
     - name: Prepare trim tool
       run: |
         cat > ${GITHUB_WORKSPACE}/fox_trim.py <<'PYEOF'
