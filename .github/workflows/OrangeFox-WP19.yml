@@ -121,7 +121,7 @@ jobs:
         KEY_DIR = "/metadata/vold/metadata_encryption"
         TERMINFO_KEEP = re.compile(r"^(linux|xterm|xterm-256color|xterm-color|vt100|vt102|"
                                    r"screen|screen-256color|tmux|tmux-256color|ansi|dumb|rxvt)$")
-                DROP_EXACT = {
+        DROP_EXACT = {
             "system/lib64/libclang_rt.ubsan_standalone-aarch64-android.so",
             "system/lib64/libssh.so",
             "system/lib64/libxml2.so",
